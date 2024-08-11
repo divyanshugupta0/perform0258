@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Issue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h1 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section p {
+            margin: 10px 0;
+        }
+        .faq {
+            margin: 20px 0;
+        }
+        .faq-item {
+            margin-bottom: 10px;
+        }
+        .faq-item h3 {
+            margin: 0;
+        }
+        .contact-info {
+            background-color: #eee;
+            padding: 10px;
+            border-left: 4px solid #333;
+        }
+        .field {
+            margin-bottom: 10px;
+        }
+        .warning{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Performance Issues</h1><br>
+        <h4>Powered By: FireAuth (fire 2.o System is scanning....)</h4>
+        <div class="warning">
+        <h6>Warning: Use of abusing words will block you to reach again on this site and legal action will be taken.</h6>
+        </div>
+
+        <div class="section contact-info">
+            <h2>Contact Us</h2>
+            <p>Support: fireflyindiainfo@gmail.com</p>
+            <form id="myForm" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="2def5933-b1c7-4028-8655-c2c6b2bf08e2">
+                <p>Fill your issues:</p>
+                <label for="input1">Name:</label>
+                <div class="field">
+                    <input type="text" placeholder="Name" name="name" id="input1" required>
+                </div>
+                <label for="input2">E-mail:</label>
+                <div class="field">
+                    <input type="email" placeholder="E-mail" name="email" id="input2" required>
+                </div>
+                <label for="input3">Issue:</label>
+                <div class="field textarea">
+                    <textarea cols="30" rows="10" placeholder="Discuss your issue with us..........." name="message" id="input3" required></textarea>
+                </div>
+                <button type="button" onclick="checkAndSubmit()">Submit</button>
+                <p id="error-message" style="color:red;"></p>
+                <p id="success-message" style="color:green;"></p>
+            </form>
+        </div>
+    </div>
+    <script>
+        function checkAndSubmit() {
+            const input1 = document.getElementById('input1').value;
+            const input2 = document.getElementById('input2').value;
+            const input3 = document.getElementById('input3').value;
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+
+            // Regular expression to detect scripting, CSS, JavaScript, and HTML commands
+            const forbiddenPattern = /<.*?>|<\/.*?>|<script.*?>.*?<\/script>|<style.*?>.*?<\/style>|<.*?javascript:.*?>|<.*?on.*?=.*?>/gi;
+
+            if (input1 === '' || input2 === '' || input3 === '') {
+                errorMessage.textContent = 'Please fill in all the fields.';
+                successMessage.textContent = '';
+            } else if (forbiddenPattern.test(input1) || forbiddenPattern.test(input2) || forbiddenPattern.test(input3)) {
+                errorMessage.textContent = 'Forbidden commands detected.';
+                alert("Warning!, Please don't use commands in the text boxes Otherwise you will be blocked.")
+                successMessage.textContent = '';
+                document.getElementById('input1').value = '';
+                document.getElementById('input2').value = '';
+                document.getElementById('input3').value = '';
+            } else {
+                errorMessage.textContent = '';
+                submitForm();
+            }
+        }
+
+        function submitForm() {
+            const form = document.getElementById('myForm');
+            const formData = new FormData(form);
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+
+            fetch(form.action, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    successMessage.textContent = 'submitted successfully!';
+                    alert("submitted successfully!");
+                    errorMessage.textContent = '';
+                    form.reset();
+                } else {
+                    return response.json().then(data => {
+                        throw new Error(data.message || 'Form submission failed');
+                    });
+                }
+            }).catch(error => {
+                errorMessage.textContent = error.message;
+                successMessage.textContent = '';
+            });
+        }
+
+
+        //  =======================================================mobile prohibit==========================================
+
+// Detect if the user is accessing from a mobile device
+function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Redirect if the user is accessing from a mobile device
+function redirectIfMobile() {
+    if (isMobile()) {
+        // Redirect to a different page
+        window.location.href = "unsupport.html";
+    }
+}
+
+// Call the function to check and redirect on page load
+window.onload = redirectIfMobile;
+
+
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    window.location.href = "unsupport.html";
+}
+    </script>
+</body>
+</html>
